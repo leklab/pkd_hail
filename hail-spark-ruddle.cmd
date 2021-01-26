@@ -76,7 +76,7 @@ python submit.py --master ${MASTER_URL} hail_scripts/hail_annotate_pipeline.py \
 --driver-memory 16G --executor-memory 8G \
 -i ~/project/pkd/exome_calls.vcf.gz \
 -m ~/project/pkd/pkd_meta.tsv \
--o ~/scratch60/pkd/hail_tables
+-o ~/scratch60/pkd/hail_tables/pkd_exomes.ht
 
 ## --------------------------------------
 ## 4. Clean up
