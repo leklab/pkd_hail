@@ -12,7 +12,7 @@ def run_pipeline(args):
     hl.init(log='./hail_annotation_pipeline.log')
 
     #mt = hl.import_vcf('vcf_files/pcgc_chr20_slice.vcf.bgz',reference_genome='GRCh37')
-    mt = hl.import_vcf(args.vcf,reference_genome='GRCh37')
+    mt = hl.import_vcf(args.vcf,reference_genome='GRCh37',force_bgz=True)
 
     #Split alleles
     mt = generate_split_alleles(mt)
@@ -26,7 +26,7 @@ def run_pipeline(args):
     #pprint.pprint(ht.show())
 
     #VEP Annotate the Hail table (ie. sites-only)
-    #ht = hl.vep(ht, 'vep85-loftee-local.json')
+    ht = hl.vep(ht, 'vep85-loftee-ruddle.json')
     #pprint.pprint(ht.describe())
     #pprint.pprint(ht.show())
 
@@ -38,7 +38,7 @@ def run_pipeline(args):
     #pprint.pprint(ht.describe())
     #pprint.pprint(ht.show())
 
-    ht.write('pcgc_chr20_100samples.ht',overwrite=True)
+    ht.write(args.out,overwrite=True)
     #export_ht_to_es(ht)
 
     #ht = hl.read_table('/home/ml2529/PCGC_dev/data/pcgc_chr20_100samples.ht')
@@ -50,6 +50,7 @@ if __name__ == '__main__':
 
     parser.add_argument('--vcf', '--input', '-i', help='bgzipped VCF file (.vcf.bgz)', required=True)
     parser.add_argument('--meta', '-m', help='Meta file containing sample population and sex', required=True)
+    parser.add_argument('--out', '-o', help='Hail table output file name', required=True)
 
     args = parser.parse_args()
     run_pipeline(args)
